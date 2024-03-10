@@ -8,8 +8,6 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use Intervention\Image\Drivers\Gd\Driver;
-use Intervention\Image\ImageManager;
 
 class ImageProcessor implements ShouldQueue {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
@@ -31,30 +29,17 @@ class ImageProcessor implements ShouldQueue {
      */
     public function handle(): void {
         $sendUserPhoto = new SendUserPhotos();
-
-        $photoPath = storage_path('app/photos/');
         $attachmentsPath = storage_path('app/output/');
-
-        $filePath = $photoPath . $this->photoName;
-
-        $manager = new ImageManager(
-            new Driver()
-        );
-
-        $image = $manager->read($filePath);
-
-        $image->scale(height: 100);
-        $encoded = $image->toJpg();
         $fileOutputPath = $attachmentsPath . pathinfo($this->photoName, PATHINFO_FILENAME);
 
-        $encoded->save($fileOutputPath . '-100.jpg');
+        ImageResize::dispatch($this->photoName, 500);
+        ImageResize::dispatch($this->photoName, 600);
+        ImageResize::dispatch($this->photoName, 700);
 
-        $sendUserPhoto->attach($fileOutputPath . '-100.jpg');
-
-        $image->scale(height: 300);
-        $encoded = $image->toJpg();
-        $encoded->save($fileOutputPath . '-300.jpg');
-        $sendUserPhoto->attach($fileOutputPath . '-300.jpg');
+        $sendUserPhoto
+            ->attach($fileOutputPath . '-500.jpg')
+            ->attach($fileOutputPath . '-600.jpg')
+            ->attach($fileOutputPath . '-700.jpg');
 
         \Mail::to($this->email)
             ->send($sendUserPhoto);
