@@ -61,25 +61,18 @@
                                     <label for="file"
                                            class="relative flex min-h-[200px] items-center justify-center rounded-md border border-dashed border-[#e0e0e0] p-12 text-center">
                                         <div>
-                            <span class="mb-2 block text-xl font-semibold text-[#07074D]">
-                                Drop files here
-                            </span>
-                                            <span class="mb-2 block text-base font-medium text-[#6B7280]">
-                                Or
-                            </span>
-                                            <span
-                                                class="inline-flex rounded border border-[#e0e0e0] py-2 px-7 text-base font-medium text-[#07074D]">
-                                Browse
-                            </span>
+                                            <span class="mb-2 block text-xl font-semibold text-[#07074D]">Drop files here</span>
+                                            <span class="mb-2 block text-base font-medium text-[#6B7280]">Or</span>
+                                            <span class="inline-flex rounded border border-[#e0e0e0] py-2 px-7 text-base font-medium text-[#07074D]">Browse</span>
                                         </div>
                                     </label>
                                 </div>
 
                                 <div class="mb-5 rounded-md bg-[#F5F7FB] py-4 px-8">
                                     <div class="flex items-center justify-between">
-                        <span class="truncate pr-3 text-base font-medium text-[#07074D]">
-                            banner-design.png
-                        </span>
+                                        <span class="truncate pr-3 text-base font-medium text-[#07074D]">
+                                            banner-design.png
+                                        </span>
                                         <button class="text-[#07074D]">
                                             <svg width="10" height="10" viewBox="0 0 10 10" fill="none"
                                                  xmlns="http://www.w3.org/2000/svg">
