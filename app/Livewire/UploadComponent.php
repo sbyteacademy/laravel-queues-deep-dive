@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use App\Jobs\ImageProcessor;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
 use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
@@ -11,8 +12,8 @@ use Symfony\Contracts\Service\Attribute\Required;
 class UploadComponent extends Component {
     use WithFileUploads;
 
-    #[Validate('email')]
     #[Required]
+    #[Validate('email')]
     public $email;
     /**
      * @var TemporaryUploadedFile $photo
@@ -23,11 +24,13 @@ class UploadComponent extends Component {
 
     public function save() {
         $this->validate();
-
         $fileName = $this->photo->getClientOriginalName();
         $this->photo->storeAs(path: 'photos', name: $fileName);
 
-        $this->dispatch('file-uploaded');
+        ImageProcessor::dispatch($this->email, $fileName);
+
+        $this->dispatch('image-processed');
+
     }
 
     public function render() {

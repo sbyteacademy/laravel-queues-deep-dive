@@ -26,7 +26,10 @@
             </svg>
         </div>
 
-        <div class="mt-16">
+        <div class="mt-16" x-data="{ open: false }" @image-processed="open = true">
+            <div x-show="open" x-cloak>
+                <livewire:alert-banner/>
+            </div>
             <livewire:upload-component/>
         </div>
 
