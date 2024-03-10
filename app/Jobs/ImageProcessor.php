@@ -15,6 +15,7 @@ class ImageProcessor implements ShouldQueue {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     private $email;
+    private \Intervention\Image\Interfaces\ImageInterface $image;
     private $photoName;
 
     /**
