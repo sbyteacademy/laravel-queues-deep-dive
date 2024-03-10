@@ -14,5 +14,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
+
+//    dispatch(new \App\Jobs\DailyEmails());
     return view('welcome');
 });
