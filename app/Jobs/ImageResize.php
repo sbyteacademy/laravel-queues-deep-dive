@@ -37,6 +37,7 @@ class ImageResize implements ShouldQueue {
      * Execute the job.
      */
     public function handle(): void {
+
         $manager = new ImageManager(
             new Driver()
         );
@@ -50,4 +51,5 @@ class ImageResize implements ShouldQueue {
         $encoded->save($fileOutputPath . '-' . $this->size . '.jpg');
 
     }
+
 }

@@ -40,13 +40,16 @@ class ImageProcessor implements ShouldQueue {
 
         $email = $this->email;
 
-        Bus::batch([
+        $pendingBatch = Bus::batch([
             ...$jobs,
         ])->then(function (Batch $batch) use ($sizes, $fileOutputPath, $email) {
             SendUserEmail::dispatch($email, $fileOutputPath, $sizes);
         })->catch(function (Batch $batch, \Throwable $e) {
             dd($e->getMessage());
-        })->dispatch();
+        });
 
+        Bus::chain([
+            $pendingBatch
+        ])->dispatch();
     }
 }
