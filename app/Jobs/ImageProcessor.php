@@ -2,18 +2,17 @@
 
 namespace App\Jobs;
 
-use App\Mail\SendUserPhotos;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Bus;
 
 class ImageProcessor implements ShouldQueue {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     private $email;
-    private \Intervention\Image\Interfaces\ImageInterface $image;
     private $photoName;
 
     /**
@@ -28,21 +27,22 @@ class ImageProcessor implements ShouldQueue {
      * Execute the job.
      */
     public function handle(): void {
-        $sendUserPhoto = new SendUserPhotos();
         $attachmentsPath = storage_path('app/output/');
         $fileOutputPath = $attachmentsPath . pathinfo($this->photoName, PATHINFO_FILENAME);
 
-        ImageResize::dispatch($this->photoName, 500);
-        ImageResize::dispatch($this->photoName, 600);
-        ImageResize::dispatch($this->photoName, 700);
+        $jobs = [];
+        $sizes = [500, 600, 700, 800, 900];
 
-        $sendUserPhoto
-            ->attach($fileOutputPath . '-500.jpg')
-            ->attach($fileOutputPath . '-600.jpg')
-            ->attach($fileOutputPath . '-700.jpg');
+        foreach ($sizes as $size) {
+            $jobs[] = new ImageResize($this->photoName, $size);
+        }
 
-        \Mail::to($this->email)
-            ->send($sendUserPhoto);
+        Bus::chain([
+            ...$jobs,
+            new SendUserEmail($this->email, $fileOutputPath, $sizes),
+        ])->catch(function () {
+
+        })->dispatch();
 
     }
 }
