@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use Illuminate\Bus\Batch;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -37,11 +38,14 @@ class ImageProcessor implements ShouldQueue {
             $jobs[] = new ImageResize($this->photoName, $size);
         }
 
-        Bus::chain([
-            ...$jobs,
-            new SendUserEmail($this->email, $fileOutputPath, $sizes),
-        ])->catch(function () {
+        $email = $this->email;
 
+        Bus::batch([
+            ...$jobs,
+        ])->then(function (Batch $batch) use ($sizes, $fileOutputPath, $email) {
+            SendUserEmail::dispatch($email, $fileOutputPath, $sizes);
+        })->catch(function (Batch $batch, \Throwable $e) {
+            dd($e->getMessage());
         })->dispatch();
 
     }
