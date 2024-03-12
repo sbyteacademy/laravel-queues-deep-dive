@@ -43,7 +43,6 @@ class WordProcessor implements ShouldQueue {
         $pdfPath = $documentPath . pathinfo($this->fileName, PATHINFO_FILENAME) . '.pdf';
         $writer->save($pdfPath);
 
-//        sleep(5);
         $sendUsersPdf = new SendUserPdf();
         $sendUsersPdf->attach($pdfPath);
 
