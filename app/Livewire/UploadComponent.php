@@ -15,6 +15,7 @@ class UploadComponent extends Component {
     #[Required]
     #[Validate('email')]
     public $email;
+
     /**
      * @var TemporaryUploadedFile $photo
      */
