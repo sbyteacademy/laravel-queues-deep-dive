@@ -51,4 +51,9 @@ class ImageProcessor implements ShouldQueue {
 
     }
 
+    public function middleware(): array {
+        return [
+
+        ];
+    }
 }

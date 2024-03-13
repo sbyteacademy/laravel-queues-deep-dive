@@ -7,6 +7,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Queue\Middleware\WithoutOverlapping;
 use Illuminate\Queue\SerializesModels;
 use Intervention\Image\Drivers\Gd\Driver;
 use Intervention\Image\ImageManager;
@@ -52,4 +53,11 @@ class ImageResize implements ShouldQueue {
 
     }
 
+    public function middleware(): array {
+        return [
+            (new WithoutOverlapping('shared-key-user-1'))
+                ->releaseAfter(10)
+                ->shared()
+        ];
+    }
 }
