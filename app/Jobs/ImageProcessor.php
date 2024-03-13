@@ -28,6 +28,7 @@ class ImageProcessor implements ShouldQueue {
      * Execute the job.
      */
     public function handle(): void {
+
         $attachmentsPath = storage_path('app/output/');
         $fileOutputPath = $attachmentsPath . pathinfo($this->photoName, PATHINFO_FILENAME);
 
@@ -40,16 +41,14 @@ class ImageProcessor implements ShouldQueue {
 
         $email = $this->email;
 
-        $pendingBatch = Bus::batch([
+        Bus::batch([
             ...$jobs,
         ])->then(function (Batch $batch) use ($sizes, $fileOutputPath, $email) {
             SendUserEmail::dispatch($email, $fileOutputPath, $sizes);
         })->catch(function (Batch $batch, \Throwable $e) {
-            dd($e->getMessage());
-        });
+            // do something with exception throwable $e
+        })->dispatch();
 
-        Bus::chain([
-            $pendingBatch
-        ])->dispatch();
+
     }
 }
