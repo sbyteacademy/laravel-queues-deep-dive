@@ -49,6 +49,6 @@ class ImageProcessor implements ShouldQueue {
             // do something with exception throwable $e
         })->dispatch();
 
-
     }
+
 }
