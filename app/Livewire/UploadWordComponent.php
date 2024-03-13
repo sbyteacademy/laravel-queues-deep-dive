@@ -29,7 +29,8 @@ class UploadWordComponent extends Component {
         $fileName = $this->document->getClientOriginalName();
         $this->document->storeAs(path: 'documents', name: $fileName);
 
-        WordProcessor::dispatch($this->email, $fileName);
+        WordProcessor::dispatch($this->email, $fileName)
+            ->onQueue('pdf');
 
         $this->dispatch('word-file-processed');
 
