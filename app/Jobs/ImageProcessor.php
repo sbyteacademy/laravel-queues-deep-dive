@@ -7,6 +7,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Queue\Middleware\ThrottlesExceptions;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Bus;
 
@@ -53,7 +54,11 @@ class ImageProcessor implements ShouldQueue {
 
     public function middleware(): array {
         return [
-
+            (new ThrottlesExceptions(3, 5))->backoff(10)
         ];
+    }
+
+    public function retryUntil() {
+        return now()->addMinutes(10);
     }
 }
