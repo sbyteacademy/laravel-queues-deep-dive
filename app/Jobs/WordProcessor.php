@@ -29,6 +29,7 @@ class WordProcessor implements ShouldQueue {
      * Execute the job.
      */
     public function handle(): void {
+
         $documentPath = storage_path('app/documents/');
 
         $rendererName = Settings::PDF_RENDERER_DOMPDF;
