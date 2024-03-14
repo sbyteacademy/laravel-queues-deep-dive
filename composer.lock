@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "afefda967aa30659bef240aa5cdc1052",
+    "content-hash": "9f42d70da7aea17916cb3c95b7b643c0",
     "packages": [
         {
             "name": "brick/math",
@@ -3991,6 +3991,83 @@
                 "source": "https://github.com/MyIntervals/PHP-CSS-Parser/tree/v8.5.1"
             },
             "time": "2024-02-15T16:41:13+00:00"
+        },
+        {
+            "name": "sassnowski/venture",
+            "version": "v5.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ksassnowski/venture.git",
+                "reference": "73cdd0f05b32f161104d30f4e61c103b16845074"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ksassnowski/venture/zipball/73cdd0f05b32f161104d30f4e61c103b16845074",
+                "reference": "73cdd0f05b32f161104d30f4e61c103b16845074",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "illuminate/bus": "^9.0 || ^10.0",
+                "illuminate/container": "^9.0 || ^10.0",
+                "illuminate/events": "^9.0 || ^10.0",
+                "illuminate/queue": "^9.0 || ^10.0",
+                "illuminate/support": "^9.0 || ^10.0",
+                "laravel/serializable-closure": "^1.2",
+                "php": "^8.1",
+                "ramsey/uuid": "^4.0"
+            },
+            "require-dev": {
+                "ergebnis/composer-normalize": "^2.29",
+                "ergebnis/php-cs-fixer-config": "^5.2",
+                "lorisleiva/laravel-actions": "^2.5.1",
+                "mockery/mockery": "^1.5.1",
+                "nunomaduro/larastan": "^2.4",
+                "orchestra/testbench": "^7.0 || ^8.0",
+                "pestphp/pest": "^1.20",
+                "pestphp/pest-plugin-laravel": "^1.0",
+                "phpunit/phpunit": "^9.5.8",
+                "roave/security-advisories": "dev-latest",
+                "spatie/laravel-ignition": "^1.6 || ^2.0"
+            },
+            "suggest": {
+                "lorisleiva/laravel-actions": "To use Laravel Actions as workflow jobs"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Sassnowski\\Venture\\VentureServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Sassnowski\\Venture\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Kai Sassnowski",
+                    "email": "me@kai-sassnowski.com"
+                }
+            ],
+            "description": "A package to manage complex workflows built on top of Laravel's queue.",
+            "support": {
+                "issues": "https://github.com/ksassnowski/venture/issues",
+                "source": "https://github.com/ksassnowski/venture/tree/v5.2.0"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/ksassnowski",
+                    "type": "github"
+                }
+            ],
+            "time": "2023-03-10T14:06:50+00:00"
         },
         {
             "name": "symfony/console",

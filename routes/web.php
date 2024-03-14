@@ -1,5 +1,7 @@
 <?php
 
+use App\Jobs\SendTweetAboutNewPodcast;
+use App\Jobs\Workflows\PublishNewPodcastWorkflow;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -12,6 +14,31 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+
+Route::get('jobs', function () {
+    Bus::chain([
+        Bus::batch([
+            new \App\Jobs\OptimizePodcast(),
+            new \App\Jobs\ProcessPodcast(),
+        ]),
+        Bus::batch([
+            new \App\Jobs\ReleaseOnApplePodcasts(),
+            new \App\Jobs\ReleaseOnTransistorFM(),
+            new \App\Jobs\CreateAudioTranscription()
+        ]),
+        Bus::batch([
+            new \App\Jobs\NotifySubscribers(),
+            new \App\Jobs\TranslateAudioTranscription()
+        ]),
+        new SendTweetAboutNewPodcast()
+    ])->dispatch();
+});
+
+Route::get('workflows', function () {
+    $workflow = PublishNewPodcastWorkflow::start();
+
+    dd($workflow->remainingJobs());
+});
 
 Route::view('/', 'welcome');
 
